@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "TestAct.generated.h"
 
 UCLASS()
@@ -23,6 +24,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
+	UPROPERTY(VisibleAnywhere, CPF_BlueprintVisible, Category = Test)
+	UStaticMeshComponent* Body;
 	
 };
