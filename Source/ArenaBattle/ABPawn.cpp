@@ -27,14 +27,16 @@ void AABPawn::Tick(float DeltaTime)
 
 void AABPawn::PostInitializeComponents()
 {
+	ABLOG(Warning, TEXT("start"));
 	Super::PostInitializeComponents();
-	ABLOG_S(Warning);
+	ABLOG(Warning, TEXT("end"));
 }
 
 void AABPawn::PossessedBy(AController* NewController)
 {
-	ABLOG_S(Warning);
+	ABLOG(Warning, TEXT("start"));
 	Super::PossessedBy(NewController);
+	ABLOG(Warning, TEXT("end"));
 }
 
 // Called to bind functionality to input

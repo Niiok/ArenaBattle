@@ -18,5 +18,5 @@ public:
 	AABGameMode();
 	
 	virtual void PostLogin(APlayerController * NewPlayer) override;
-
+	virtual void PostInitializeComponents() override;
 };

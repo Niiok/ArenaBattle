@@ -5,13 +5,15 @@
 
 void AABPlayerController::PostInitializeComponents()
 {
+	ABLOG(Warning, TEXT("start"));
 	Super::PostInitializeComponents();
-	ABLOG_S(Warning);
+	ABLOG(Warning, TEXT("end"));
 }
 
 void AABPlayerController::Possess(APawn* aPawn)
 {
-	ABLOG_S(Warning);
+	ABLOG(Warning,TEXT("start"));
 	Super::Possess(aPawn);
+	ABLOG(Warning, TEXT("end"));
 }
 
