@@ -32,13 +32,31 @@ AABPawn::AABPawn()
 		Mesh->SetSkeletalMesh(SK_CARDBOARD.Object);
 	}
 
+	Mesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance> WARRIOR_ANIM(TEXT("/Game/Book/Animation/WarriorAnimBlueprint.WarriorAnimBlueprint_C"));
+	if (WARRIOR_ANIM.Succeeded())
+	{
+		Mesh->SetAnimInstanceClass(WARRIOR_ANIM.Class);
+	}
+	else
+	{
+		ABLOG(Error, TEXT("Animation bluepring haven't adjusted."));
+	}
 }
 
 // Called when the game starts or when spawned
 void AABPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	/*
+	Mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	UAnimationAsset* AnimAsset = LoadObject<UAnimationAsset>(nullptr, TEXT("/Game/Book/Animation/WarriorRun.WarriorRun"));
+	if (AnimAsset != nullptr)
+	{
+		Mesh->PlayAnimation(AnimAsset, true);
+	}
+	*/
 }
 
 // Called every frame
@@ -61,6 +79,8 @@ void AABPawn::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	ABLOG(Warning, TEXT("end"));
 }
+
+
 
 // Called to bind functionality to input
 void AABPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

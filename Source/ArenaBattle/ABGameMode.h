@@ -13,7 +13,8 @@ UCLASS()
 class ARENABATTLE_API AABGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+
 public:
 	AABGameMode();
 	
