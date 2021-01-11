@@ -19,6 +19,10 @@
 *.gch
 *.pch
 
+#intellisence precompiled binary
+/ipch
+*.ipch
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
