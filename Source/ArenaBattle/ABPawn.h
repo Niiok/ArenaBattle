@@ -5,7 +5,13 @@
 #include "ArenaBattle.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Animation/AnimInstance.h"
+#include "UObject/ConstructorHelpers.h"
+
 #include "ABPawn.generated.h"
+
 
 UCLASS()
 class ARENABATTLE_API AABPawn : public APawn

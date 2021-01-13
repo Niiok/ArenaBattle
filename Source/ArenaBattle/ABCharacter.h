@@ -4,7 +4,13 @@
 
 #include "ArenaBattle.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Animation/AnimInstance.h"
+#include "UObject/ConstructorHelpers.h"
+
 #include "ABCharacter.generated.h"
+
 
 UCLASS()
 class ARENABATTLE_API AABCharacter : public ACharacter
