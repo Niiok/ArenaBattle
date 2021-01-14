@@ -27,7 +27,7 @@ AABPawn::AABPawn()
 	SpringArm->SetRelativeRotation(FRotator(-15.0f, 0.0f, 0.0f));
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_CARDBOARD(TEXT("/Game/InfinityBladeWarriors/Character/CompleteCharacters/SK_CharM_Cardboard.SK_CharM_Cardboard"));
-	if (SK_CARDBOARD.Succeeded())
+	if (SK_CARDBOARD.Succeeded()) 
 	{
 		Mesh->SetSkeletalMesh(SK_CARDBOARD.Object);
 	}

@@ -100,8 +100,7 @@ void AABCharacter::SetControlMode(EControlMode NewControlMode)
 void AABCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//Velocity = sqrt(pow(GetVelocity().X,2)+pow(GetVelocity().Y,2)+pow(GetVelocity().Z,2));
-
+	
 	SpringArm->TargetArmLength = FMath::FInterpTo(SpringArm->TargetArmLength, ArmLengthTo, DeltaTime, ArmLengthSpeed);
 
 	switch (CurrentControlMode)

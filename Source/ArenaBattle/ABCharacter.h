@@ -71,7 +71,4 @@ private:
 
 	float Ud = 0.0f, Lr = 0.0f;
 
-	UPROPERTY(VisibleAnywhere)
-	float Velocity;
-
 };
