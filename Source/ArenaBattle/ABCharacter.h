@@ -68,6 +68,7 @@ private:
 	//void KillRag(float NewAxisValue);
 
 	void ViewChange();
+	void Attack();
 
 	float Ud = 0.0f, Lr = 0.0f;
 
