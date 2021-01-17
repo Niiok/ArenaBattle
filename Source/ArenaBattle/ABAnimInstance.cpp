@@ -36,8 +36,9 @@ void UABAnimInstance::PlayAttackMontage()
 
 void UABAnimInstance::JumpToAttackMontageSection(int32 NewSection)
 {
-	ABCHECK(Montage_IsPlaying(AttackMontage));
+	//UE_LOG(ArenaBattle, Warning, TEXT("Jumping... Montage play: %d"), Montage_IsPlaying(AttackMontage));
 	Montage_JumpToSection(GetAttackMontageSectionName(NewSection), AttackMontage);
+	ABCHECK(Montage_IsPlaying(AttackMontage));
 }
 
 void UABAnimInstance::AnimNotify_AttackHitCheck()

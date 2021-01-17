@@ -49,6 +49,8 @@ AABCharacter::AABCharacter()
 
 	MaxCombo = 4;
 	AttackEndComboState();
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("ABCharacter"));
 }
 	
 
@@ -135,21 +137,25 @@ void AABCharacter::Tick(float DeltaTime)
 void AABCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+
 	ABAnim = Cast<UABAnimInstance>(GetMesh()->GetAnimInstance());
 	ABCHECK(nullptr != ABAnim);
 
 	ABAnim->OnMontageEnded.AddDynamic(this, &AABCharacter::OnAttackMontageEnded);
 
+	
 	ABAnim->OnNextAttackCheck.AddLambda([this]()->void {
 		ABLOG(Warning, TEXT("OnNextAttackCheck"));
+	
 		CanNextCombo = false;
 
+		ABLOG(Warning, TEXT("ComboInput: %d, CurrentCombo: %d"), IsComboInputOn, CurrentCombo);
 		if (IsComboInputOn)
 		{
 			AttackStartComboState();
 			ABAnim->JumpToAttackMontageSection(CurrentCombo);
 		}
-
+		
 	});
 }
 
@@ -173,6 +179,11 @@ void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 }
 
 
+
+////Custum Funtions below
+
+
+//Input bindings
 void AABCharacter::UpDown(float NewAxisValue)
 {
 	switch (CurrentControlMode)
@@ -189,7 +200,6 @@ void AABCharacter::UpDown(float NewAxisValue)
 		break;
 	}
 }
-
 void AABCharacter::LeftRight(float NewAxisValue)
 {
 	switch (CurrentControlMode)
@@ -206,7 +216,6 @@ void AABCharacter::LeftRight(float NewAxisValue)
 		break;
 	}
 }
-
 void AABCharacter::LookUp(float NewAxisValue)
 {
 	switch (CurrentControlMode)
@@ -219,7 +228,6 @@ void AABCharacter::LookUp(float NewAxisValue)
 		break;
 	}
 }
-
 void AABCharacter::Turn(float NewAxisValue)
 {
 	switch (CurrentControlMode)
@@ -233,7 +241,6 @@ void AABCharacter::Turn(float NewAxisValue)
 		break;
 	}
 }
-
 /*
 void AABCharacter::KillRag(float NewActionValue)
 {
@@ -243,8 +250,6 @@ void AABCharacter::KillRag(float NewActionValue)
 	ABLOG_S(Error);
 }
 */
-
-
 void AABCharacter::ViewChange()
 {
 	if (CurrentControlMode == EControlMode::Basic)
@@ -259,6 +264,7 @@ void AABCharacter::ViewChange()
 	}
 	
 }
+
 
 void AABCharacter::Attack()
 {
@@ -286,6 +292,7 @@ void AABCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool)
 	ABCHECK(CurrentCombo > 0);
 	IsAttacking = false;
 	AttackEndComboState();
+	ABLOG(Warning, TEXT("Attack ended"));
 }
 
 void AABCharacter::AttackStartComboState()

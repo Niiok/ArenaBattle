@@ -8,20 +8,19 @@
 #include "Camera/CameraComponent.h"
 #include "Animation/AnimInstance.h"
 #include "UObject/ConstructorHelpers.h"
-
+//FInal Header
 #include "ABCharacter.generated.h"
-
 
 UCLASS()
 class ARENABATTLE_API AABCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+
+
 public:
 	// Sets default values for this character's properties
 	AABCharacter();
-
-
 
 protected:
 	// Called when the game starts or when spawned
@@ -67,8 +66,8 @@ private:
 	void LookUp(float NewAxisValue);
 	void Turn(float NewAxisValue);
 	//void KillRag(float NewAxisValue);
-
 	void ViewChange();
+
 	void Attack();
 
 	UFUNCTION()
@@ -97,6 +96,6 @@ private:
 		class UABAnimInstance* ABAnim;
 
 
-	float Ud = 0.0f, Lr = 0.0f;
+	//float Ud = 0.0f, Lr = 0.0f;
 
 };
