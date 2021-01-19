@@ -173,10 +173,10 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	
 	if (FinalDamage > 0.0f)
 	{
-		//ABAnim->SetDeadAnim();
-		//SetActorEnableCollision(false);
-		GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
-		GetMesh()->SetAllBodiesSimulatePhysics(true);
+		ABAnim->SetDeadAnim();
+		SetActorEnableCollision(false);
+		//GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+		//GetMesh()->SetAllBodiesSimulatePhysics(true);
 	}
 
 	return FinalDamage;
