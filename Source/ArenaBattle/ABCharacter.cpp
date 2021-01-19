@@ -3,6 +3,7 @@
 #include "ABCharacter.h"
 #include "ABAnimInstance.h"
 #include "DrawDebugHelpers.h"
+#include "ABWeapon.h"
 
 
 // Sets default values
@@ -40,6 +41,7 @@ AABCharacter::AABCharacter()
 		ABLOG(Error, TEXT("Animation blueprint haven't adjusted."));
 	}
 
+
 	SetControlMode(EControlMode::Basic);
 
 	ArmLengthSpeed = 3.0f;
@@ -63,6 +65,25 @@ void AABCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	FName WeaponSocket(TEXT("hand_rSocket"));
+	auto CurWeapon = GetWorld()->SpawnActor<AABWeapon>(FVector::ZeroVector, FRotator::ZeroRotator);
+	if (nullptr != CurWeapon)
+	{
+		CurWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+	}
+
+	/*
+	if (GetMesh()->DoesSocketExist(WeaponSocket))
+	{
+		Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WEAPON"));
+		static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_WEAPON(TEXT("/Game/InfinityBladeWeapons/Weapons/Blade/Silly_Weapons/Blade_Chainsaw/SK_Blade_Chainsaw.SK_Blade_Chainsaw"));
+		if (SK_WEAPON.Succeeded())
+		{
+			Weapon->SetSkeletalMesh(SK_WEAPON.Object);
+		}
+
+		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
+	}*/
 }
 
 
@@ -177,6 +198,7 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 		SetActorEnableCollision(false);
 		//GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
 		//GetMesh()->SetAllBodiesSimulatePhysics(true);
+		//GetWorld()->SpawnActor(AABCharacter);
 	}
 
 	return FinalDamage;
