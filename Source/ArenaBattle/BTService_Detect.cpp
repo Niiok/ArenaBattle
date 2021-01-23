@@ -36,9 +36,9 @@ void UBTService_Detect::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		CollisionQueryParam
 	);
 
+	OwnerComp.GetBlackboardComponent()->SetValueAsObject(AABAIController::TargetKey, nullptr);
 	if (bResult)
 	{
-		OwnerComp.GetBlackboardComponent()->SetValueAsObject(AABAIController::TargetKey, nullptr);
 		for(auto const& OverlapResult : OverlapResults)
 		{
 			AABCharacter* ABCharacter = Cast<AABCharacter>(OverlapResult.GetActor());
