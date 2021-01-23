@@ -414,6 +414,8 @@ void AABCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool)
 	IsAttacking = false;
 	AttackEndComboState();
 	ABLOG(Warning, TEXT("Attack ended"));
+
+	OnAttackEnd.Broadcast();
 }
 
 void AABCharacter::AttackStartComboState()
