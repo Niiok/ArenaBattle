@@ -9,9 +9,9 @@ public class ArenaBattleTarget : TargetRules
 	{
 		Type = TargetType.Game;
 
-        bUseUnityBuild = false;
-        bUsePCHFiles = false;
+        //bUseUnityBuild = false;
+        //bUsePCHFiles = false;
 
-		ExtraModuleNames.AddRange( new string[] { "ArenaBattle" } );
+		ExtraModuleNames.AddRange( new string[] { "ArenaBattle", "ArenaBattleSetting" } );
 	}
 }
