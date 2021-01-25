@@ -18,8 +18,6 @@ class ARENABATTLE_API AABCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-
-
 public:
 	// Sets default values for this character's properties
 	AABCharacter();
@@ -100,6 +98,8 @@ private:
 	void AttackEndComboState();
 	void AttackCheck();
 
+	void OnAssetLoadCompleted();
+
 private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 		bool IsAttacking;
@@ -125,7 +125,8 @@ private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 		float AttackRadius;
 
-
+	FSoftObjectPath CharacterAssetToLoad = FSoftObjectPath(nullptr);
+	TSharedPtr<struct FStreamableHandle> AssetStreamingHandle;
 
 
 	//float Ud = 0.0f, Lr = 0.0f;
