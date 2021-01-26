@@ -35,6 +35,17 @@ private:
 
 	void OperateGates(bool bOpen = true);
 
+	UFUNCTION()
+		void OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnGateTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnSectionExitOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	void OnNPCSpawn();
+
 public:	
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
@@ -54,5 +65,19 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = State, Meta = (AllowPrivateAccess = true))
 		bool bNoBattle;
+
+
+	//static AABSection* CompleteSection;
+	bool bNextEmpty;
+
+
+	UPROPERTY(EditAnywhere, Category = Spawn, Meta = (AllowPrivateAccess = true))
+		float EnemySpawnTime;
+
+	UPROPERTY(EditAnywhere, Category = Spawn, Meta = (AllowPrivateAccess = true))
+		float ItemBoxSpawnTime;
+
+	FTimerHandle SpawnNPCTimerHandle = {  };
+	FTimerHandle SpawnItemBoxTimerHandle = {  };
 
 };
