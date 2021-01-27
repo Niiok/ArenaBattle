@@ -26,5 +26,8 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 		USkeletalMeshComponent* Weapon;
+
+	UPROPERTY(EditAnywhere, Category = Weapon)
+		float WeaponDamage;
 	
 };

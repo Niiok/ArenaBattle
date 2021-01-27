@@ -89,7 +89,7 @@ void AABSection::SetState(ESectionState NewState)
 {
 	switch (NewState)
 	{
-	case ESectionState::READY:
+	case ESectionState::READY: {
 		Trigger->SetCollisionProfileName(TEXT("ABTrigger"));
 		for (UBoxComponent* GateTrigger : GateTriggers)
 		{
@@ -97,8 +97,9 @@ void AABSection::SetState(ESectionState NewState)
 		}
 		OperateGates(true);
 		break;
+	}
 
-	case ESectionState::BATTLE:
+	case ESectionState::BATTLE: {
 		Trigger->SetCollisionProfileName(TEXT("NoCollision"));
 		for (UBoxComponent* GateTrigger : GateTriggers)
 		{
@@ -115,8 +116,9 @@ void AABSection::SetState(ESectionState NewState)
 		), ItemBoxSpawnTime, false);
 
 		break;
+	}
 
-	case ESectionState::COMPLETE:
+	case ESectionState::COMPLETE: {
 		Trigger->SetCollisionProfileName(TEXT("NoCollision"));
 		for (UBoxComponent* GateTrigger : GateTriggers)
 		{
@@ -124,8 +126,9 @@ void AABSection::SetState(ESectionState NewState)
 		}
 		OperateGates(true);
 		break;
+	}
 
-	case ESectionState::BLOCK:
+	case ESectionState::BLOCK: {
 		Trigger->SetCollisionProfileName(TEXT("NoCollision"));
 		for (UBoxComponent* GateTrigger : GateTriggers)
 		{
@@ -133,10 +136,12 @@ void AABSection::SetState(ESectionState NewState)
 		}
 		OperateGates(false);
 		break;
+	}
 
-	case ESectionState::DELETE:
+	case ESectionState::DELETE: {
 		SetLifeSpan(5.0f);
 		break;
+	}
 	}
 
 	CurrentState = NewState;
@@ -154,8 +159,8 @@ void AABSection::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 {
 	if (CurrentState == ESectionState::READY)
 	{
-		SetState(ESectionState::BATTLE);
-		//SetState(ESectionState::COMPLETE);
+		//SetState(ESectionState::BATTLE);
+		SetState(ESectionState::COMPLETE);
 	}
 }
 

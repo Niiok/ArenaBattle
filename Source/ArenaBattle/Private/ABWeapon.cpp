@@ -19,6 +19,8 @@ AABWeapon::AABWeapon()
 	}
 
 	Weapon->SetCollisionProfileName(TEXT("NoCollision"));
+
+	WeaponDamage = 5.0f;
 }
 
 // Called when the game starts or when spawned
