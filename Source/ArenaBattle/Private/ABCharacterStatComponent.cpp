@@ -86,6 +86,11 @@ float UABCharacterStatComponent::GetHPRatio()
 		return (CurrentStatData->MaxHP < KINDA_SMALL_NUMBER) ? 0.0f : (CurrentHP / CurrentStatData->MaxHP);
 }
 
+int32 UABCharacterStatComponent::GetDropExp()
+{
+	return CurrentStatData->DropExp;
+}
+
 // Called every frame
 void UABCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

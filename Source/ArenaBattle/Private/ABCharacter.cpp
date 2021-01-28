@@ -12,6 +12,7 @@
 #include "ABGameInstance.h"
 #include "ABPlayerController.h"
 #include "ABPlayerState.h"
+#include "ABHUDWidget.h"
 
 
 // Sets default values
@@ -170,8 +171,12 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 		{
 			DisableInput(ABPlayerController);
 
+			ABPlayerController->GetHUDWidget()->BindCharacterStat(CharacterStat);
+
 			auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
 			//auto ABPlayerState = Cast<AABPlayerState>(GetPlayerState()); //version 4.20+
+			ABCHECK(ABPlayerState != nullptr);
+			CharacterStat->SetNewLevel(ABPlayerState->GetCharacterLevel());
 		}
 
 		SetActorHiddenInGame(true);
@@ -246,6 +251,11 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 ECharacterState AABCharacter::GetCharacterState() const
 {
 	return CurrentState;
+}
+
+int32 AABCharacter::GetExp() const
+{
+	return CharacterStat->GetDropExp();
 }
 
 bool AABCharacter::CanSetWeapon()
@@ -405,6 +415,16 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	}
 	*/
 	CharacterStat->SetDamage(FinalDamage);
+
+	if (CurrentState == ECharacterState::DEAD)
+	{
+		if (EventInstigator->IsPlayerController())
+		{
+			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
+			ABCHECK(ABPlayerController != nullptr, 0.0f);
+			ABPlayerController->NPCKill(this);
+		}
+	}
 
 	return FinalDamage;
 }
