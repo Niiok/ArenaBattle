@@ -11,7 +11,7 @@ AABGameMode::AABGameMode()
 	DefaultPawnClass = AABCharacter::StaticClass();
 	PlayerControllerClass = AABPlayerController::StaticClass();
 	PlayerStateClass = AABPlayerState::StaticClass();
-	//GameStateClass = AABGameState::StaticClass();
+	GameStateClass = AABGameState::StaticClass();
 }
 
 void AABGameMode::PostLogin(APlayerController * NewPlayer)
@@ -30,8 +30,23 @@ void AABGameMode::PostInitializeComponents()
 	ABLOG(Warning, TEXT("start"));
 	Super::PostInitializeComponents();
 	ABLOG(Warning, TEXT("end"));
+
+	ABGameState = Cast<AABGameState>(GameState);
 }
 
+void AABGameMode::AddScore(AABPlayerController* ScoredPlayer)
+{
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	{
+		const auto ABPlayerController = Cast<AABPlayerController>(It->Get());
+		if ((ABPlayerController != nullptr) && (ScoredPlayer == ABPlayerController))
+		{
+			ABPlayerController->AddGameScore();
+			break;
+		}
+	}
 
+	ABGameState->AddGameScore();
+}
 
 

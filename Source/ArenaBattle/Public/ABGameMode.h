@@ -20,4 +20,10 @@ public:
 	
 	virtual void PostLogin(APlayerController * NewPlayer) override;
 	virtual void PostInitializeComponents() override;
+	void AddScore(class AABPlayerController* ScoredPlayer);
+
+private:
+	UPROPERTY()
+		class AABGameState* ABGameState;
+
 };

@@ -4,6 +4,7 @@
 #include "ABCharacter.h"
 #include "ABItemBox.h"
 #include "ABPlayerController.h"
+#include "ABGameMode.h"
 
 
 // Sets default values
@@ -70,6 +71,8 @@ AABSection::AABSection()
 
 	EnemySpawnTime = 2.0f;
 	ItemBoxSpawnTime = 5.0f;
+
+	Mesh->SetMobility(EComponentMobility::Static);
 }
 
 void AABSection::OnConstruction(const FTransform& Transform)
@@ -261,6 +264,10 @@ void AABSection::OnKeyNPCDestroyed(AActor* DestroyedActor)
 
 	auto ABPlayerController = Cast<AABPlayerController>(ABCharacter->LastHitBy);
 	ABCHECK(ABPlayerController != nullptr);
+
+	auto ABGameMode = Cast<AABGameMode>(GetWorld()->GetAuthGameMode());
+	ABCHECK(ABGameMode != nullptr);
+	ABGameMode->AddScore(ABPlayerController);
 
 	SetState(ESectionState::COMPLETE);
 }
