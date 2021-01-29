@@ -223,6 +223,13 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 		ABAnim->SetDeadAnim();
 		bCanBeDamaged = false;
 
+		if (LastHitBy->IsPlayerController())
+		{
+			auto ABPlayerController = Cast<AABPlayerController>(LastHitBy);
+			ABCHECK(ABPlayerController != nullptr);
+			ABPlayerController->NPCKill(this);
+		}
+
 		if (bIsPlayer)
 		{
 			DisableInput(ABPlayerController);
@@ -405,7 +412,7 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	ABLOG(Warning, TEXT("Actor: %s took Damage : %f"), *GetName(), FinalDamage);
 	/*
-	if (FinalDamage > 0.0f)
+	if (FinalDamage > 0.0f)		//moved to OnHPIsZero Delegate.
 	{
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
@@ -416,6 +423,7 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	*/
 	CharacterStat->SetDamage(FinalDamage);
 
+	/*
 	if (CurrentState == ECharacterState::DEAD)
 	{
 		if (EventInstigator->IsPlayerController())
@@ -425,6 +433,7 @@ float AABCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 			ABPlayerController->NPCKill(this);
 		}
 	}
+	*/
 
 	return FinalDamage;
 }
