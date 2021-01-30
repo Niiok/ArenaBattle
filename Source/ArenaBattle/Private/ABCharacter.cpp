@@ -270,6 +270,13 @@ float AABCharacter::GetFinalAttackRange() const
 	return (CurrentWeapon != nullptr) ? CurrentWeapon->GetAttackRange() : AttackRange;
 }
 
+float AABCharacter::GetFinalAttackDamage() const
+{
+	float AttackDamage = (CurrentWeapon != nullptr) ? (CharacterStat->GetAttack() + CurrentWeapon->GetAttackDamage()) : CharacterStat->GetAttack();
+	float AttackModifier = (CurrentWeapon != nullptr) ? CurrentWeapon->GetAttackModifier() : 1.0f;
+	return AttackDamage * AttackModifier;
+}
+
 bool AABCharacter::CanSetWeapon()
 {
 	return true;	//(CurrentWeapon == nullptr);
@@ -663,9 +670,8 @@ void AABCharacter::AttackCheck()
 			ABLOG(Warning, TEXT("Hit Action Name : %s"), *HitResult.Actor->GetName());
 
 			FDamageEvent DamageEvent;
-			float TotalDamage;
-			TotalDamage = (CurrentWeapon != nullptr) ? (CharacterStat->GetAttack() + CurrentWeapon->WeaponDamage) : (CharacterStat->GetAttack()) ;
-			HitResult.Actor->TakeDamage(TotalDamage, DamageEvent, GetController(), this);
+			//float TotalDamage;	TotalDamage = (CurrentWeapon != nullptr) ? (CharacterStat->GetAttack() + CurrentWeapon->WeaponDamage) : (CharacterStat->GetAttack()) ;
+			HitResult.Actor->TakeDamage(GetFinalAttackDamage(), DamageEvent, GetController(), this);
 		}
 	}
 }
