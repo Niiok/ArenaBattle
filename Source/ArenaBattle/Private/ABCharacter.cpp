@@ -13,6 +13,7 @@
 #include "ABPlayerController.h"
 #include "ABPlayerState.h"
 #include "ABHUDWidget.h"
+#include "ABGameMode.h"
 
 
 // Sets default values
@@ -177,6 +178,15 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 			//auto ABPlayerState = Cast<AABPlayerState>(GetPlayerState()); //version 4.20+
 			ABCHECK(ABPlayerState != nullptr);
 			CharacterStat->SetNewLevel(ABPlayerState->GetCharacterLevel());
+		}
+		else
+		{
+			auto ABGameMode = Cast<AABGameMode>(GetWorld()->GetAuthGameMode());
+			ABCHECK(ABGameMode != nullptr);
+			int32 TargetLevel = FMath::CeilToInt(((float)ABGameMode->GetScore()) * 0.8f);
+			int32 FinalLevel = FMath::Clamp<int32>(TargetLevel, 1, 20);
+			ABLOG(Warning, TEXT("New NPC Level : $d"), FinalLevel);
+			CharacterStat->SetNewLevel(FinalLevel);
 		}
 
 		SetActorHiddenInGame(true);
