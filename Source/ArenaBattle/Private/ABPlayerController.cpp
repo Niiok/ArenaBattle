@@ -4,6 +4,7 @@
 #include "ABHUDWidget.h"
 #include "ABPlayerState.h"
 #include "ABCharacter.h"
+#include "ABCharacterStatComponent.h"
 
 
 AABPlayerController::AABPlayerController()
@@ -53,7 +54,12 @@ UABHUDWidget* AABPlayerController::GetHUDWidget() const
 
 void AABPlayerController::NPCKill(AABCharacter* KilledNPC) const
 {
-	ABPlayerState->AddExp(KilledNPC->GetExp());
+	if (ABPlayerState->AddExp(KilledNPC->GetExp()))
+	{
+		auto Stat = Cast<AABCharacter>(GetPawn())->CharacterStat;
+		ABCHECK(Stat != nullptr);
+		Stat->SetNewLevel(ABPlayerState->GetCharacterLevel());
+	}
 }
 
 void AABPlayerController::AddGameScore() const
