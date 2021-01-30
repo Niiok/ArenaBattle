@@ -47,6 +47,17 @@ void AABPlayerController::BeginPlay()
 	ABPlayerState->OnPlayerStateChanged.Broadcast();
 }
 
+void  AABPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	InputComponent->BindAction(TEXT("GamePause"), EInputEvent::IE_Pressed, this, &AABPlayerController::OnGamePause);
+}
+
+void AABPlayerController::OnGamePause()
+{
+
+}
+
 UABHUDWidget* AABPlayerController::GetHUDWidget() const
 {
 	return HUDWidget;
