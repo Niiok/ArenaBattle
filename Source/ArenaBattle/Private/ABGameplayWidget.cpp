@@ -2,7 +2,7 @@
 
 #include "ABGameplayWidget.h"
 #include "Components/Button.h"
-
+#include "ABPlayerController.h"
 
 void UABGameplayWidget::NativeConstruct()
 {
@@ -14,30 +14,37 @@ void UABGameplayWidget::NativeConstruct()
 		ResumeButton->OnClicked.AddDynamic(this, &UABGameplayWidget::OnResumeClicked);
 	}
 
-	ReturnToTitlleButton = Cast<UButton>(GetWidgetFromName(TEXT("btnReturnToTitle")));
-	if (ReturnToTitlleButton != nullptr)
+	ReturnToTitleButton = Cast<UButton>(GetWidgetFromName(TEXT("btnReturnToTitle")));
+	if (ReturnToTitleButton != nullptr)
 	{
-		ReturnToTitlleButton->OnClicked.AddDynamic(this, &UABGameplayWidget::OnReturnToTitleClicked);
+		ReturnToTitleButton->OnClicked.AddDynamic(this, &UABGameplayWidget::OnReturnToTitleClicked);
 	}
 
 	RetryGameButton = Cast<UButton>(GetWidgetFromName(TEXT("btnRetryGame")));
 	if (RetryGameButton != nullptr)
 	{
-		RetryGameButton->OnClicked.AddDynamic(this, UABGameplayWidget::OnRetryGameClicked);
+		RetryGameButton->OnClicked.AddDynamic(this, &UABGameplayWidget::OnRetryGameClicked);
 	}
 }
 
 void UABGameplayWidget::OnResumeClicked()
 {
+	auto ABPlayerController = Cast<AABPlayerController>(GetOwningPlayer());
+	ABCHECK(ABPlayerController != nullptr);
 
+	RemoveFromParent();
+	ABPlayerController->ChangeInputMode(true);
+	ABPlayerController->SetPause(false);
 }
 
 void UABGameplayWidget::OnReturnToTitleClicked()
 {
-
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Title"));
 }
 
 void UABGameplayWidget::OnRetryGameClicked()
 {
-
+	auto ABPlayerController = Cast<AABPlayerController>(GetOwningPlayer());
+	ABCHECK(ABPlayerController != nullptr);
+	ABPlayerController->RestartLevel();
 }
