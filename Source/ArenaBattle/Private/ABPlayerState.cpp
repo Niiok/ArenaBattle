@@ -2,18 +2,26 @@
 
 #include "ABPlayerState.h"
 #include "ABGameInstance.h"
+#include "ABSaveGame.h"
 
 
 AABPlayerState::AABPlayerState()
 {
 	CharacterLevel = 1;
 	GameScore = 0;
+	GameHighScore = 0;
 	Exp = 0;
+	SaveSlotName = TEXT("Player1");
 }
 
 int32 AABPlayerState::GetGameScore() const
 {
 	return GameScore;
+}
+
+int32 AABPlayerState::GetGameHghScore() const
+{
+	return GameHighScore;
 }
 
 int32 AABPlayerState::GetCharacterLevel() const
@@ -23,10 +31,33 @@ int32 AABPlayerState::GetCharacterLevel() const
 
 void AABPlayerState::InitPlayerData()
 {
-	SetPlayerName(TEXT("Player"));
-	SetCharacterLevel(5);
+	auto ABSaveGame = Cast<UABSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
+	if (ABSaveGame == nullptr)
+	{
+		ABSaveGame = GetMutableDefault<UABSaveGame>();
+		// = UABSaveGame::StaticClass()->GetDefaultObject();
+	}
+
+	SetPlayerName(ABSaveGame->PlayerName);
+	SetCharacterLevel(ABSaveGame->Level);
 	GameScore = 0;
-	Exp = 0;
+	GameHighScore = ABSaveGame->HighScore;
+	Exp = ABSaveGame->Exp;
+	SavePlayerData();
+}
+
+void AABPlayerState::SavePlayerData()
+{
+	UABSaveGame* NewPlayerData = NewObject<UABSaveGame>();
+	NewPlayerData->PlayerName = GetPlayerName();
+	NewPlayerData->Level = CharacterLevel;
+	NewPlayerData->Exp = Exp;
+	NewPlayerData->HighScore = GameHighScore;
+
+	if (!UGameplayStatics::SaveGameToSlot(NewPlayerData, SaveSlotName, 0))
+	{
+		ABLOG(Error, TEXT("SaveGame Error"));
+	}
 }
 
 float AABPlayerState::GetExpRatio() const
@@ -60,6 +91,11 @@ bool AABPlayerState::AddExp(int32 IncomeExp)
 void AABPlayerState::AddGameScore()
 {
 	GameScore++;
+	if (GameScore >= GameHighScore)
+	{
+		GameHighScore = GameScore;
+	}
+
 	OnPlayerStateChanged.Broadcast();
 }
 
@@ -72,4 +108,5 @@ void AABPlayerState::SetCharacterLevel(int32 NewCharacterLevel)
 	ABCHECK(CurrentStatData != nullptr);
 
 	CharacterLevel = NewCharacterLevel;
+	SavePlayerData();
 }
