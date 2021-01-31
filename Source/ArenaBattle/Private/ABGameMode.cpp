@@ -13,7 +13,7 @@ AABGameMode::AABGameMode()
 	PlayerStateClass = AABPlayerState::StaticClass();
 	GameStateClass = AABGameState::StaticClass();
 
-	ScoreToClear = 2;
+	ScoreToClear = 500;
 }
 
 void AABGameMode::PostLogin(APlayerController * NewPlayer)
